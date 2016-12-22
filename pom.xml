@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.colbert</groupId>
+		<artifactId>maven-parent</artifactId>
+		<version>1.1.0</version>
+	</parent>
+
+	<artifactId>consolidador-rankings</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Consolidador de Rankings</name>
+	<description>Projeto que permite que diversos rankings (normalmente musicais) sejam consolidados em um só.</description>
+
+	<developers>
+		<developer>
+			<id>Ryudo302</id>
+			<email>th.colbert@gmail.com</email>
+			<name>Thiago Lima Colbert Miranda</name>
+			<timezone>-3</timezone>
+		</developer>
+	</developers>
+
+	<properties>
+		<aplicacao.nome>MyChart</aplicacao.nome>
+
+		<!-- Nome do projeto dentro do repositório SCM -->
+		<scm.project.name>consolidador-rankings.git</scm.project.name>
+
+		<junit.version>4.12</junit.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<scm>
+		<url>${scm.base.url}/${scm.project.name}</url>
+		<connection>scm:git:${project.scm.url}</connection>
+		<developerConnection>scm:git:${project.scm.url}</developerConnection>
+	</scm>
+	<modules>
+		<module>consolidador-rankings-core</module>
+		<module>consolidador-rankings-desktop</module>
+	</modules>
+</project>
