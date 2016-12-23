@@ -1,9 +1,11 @@
 package br.com.colbert.consolidador.dominio.ranking;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 
@@ -28,8 +30,14 @@ public class ConsolidacaoServico implements Serializable {
      *            a serem consolidados
      * @return o ranking consolidado gerado
      */
-    public Ranking consolidar(Ranking... rankings) {
-        // TODO
-        return null;
+    public Ranking consolidar(@Valid Ranking... rankings) {
+        RankingBuilder rankingConsolidadoBuilder = Ranking.novo("Consolidado");
+
+        Arrays.stream(rankings).forEach(rankingAtual -> {
+            logger.debug("Processando ranking: {}", rankingAtual);
+            rankingConsolidadoBuilder.comItens(rankingAtual.getItens());
+        });
+
+        return rankingConsolidadoBuilder.build();
     }
 }

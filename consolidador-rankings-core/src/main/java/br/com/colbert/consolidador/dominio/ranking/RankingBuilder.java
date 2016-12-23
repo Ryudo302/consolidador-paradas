@@ -1,6 +1,7 @@
 package br.com.colbert.consolidador.dominio.ranking;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import br.com.colbert.consolidador.infraestrutura.builder.AbstractBuilder;
 
@@ -25,6 +26,11 @@ public class RankingBuilder extends AbstractBuilder<Ranking> implements Serializ
     }
 
     public RankingBuilder comItens(ItemRanking... itens) {
+        instanciaIncompleta.addItens(itens);
+        return this;
+    }
+
+    public RankingBuilder comItens(Collection<ItemRanking> itens) {
         instanciaIncompleta.addItens(itens);
         return this;
     }

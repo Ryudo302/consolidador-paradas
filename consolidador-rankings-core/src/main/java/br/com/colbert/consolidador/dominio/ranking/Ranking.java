@@ -3,8 +3,8 @@ package br.com.colbert.consolidador.dominio.ranking;
 import java.io.Serializable;
 import java.util.*;
 
-import javax.validation.Valid;
-
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -19,9 +19,8 @@ public class Ranking implements Serializable {
 
     @NotEmpty
     private final String nome;
-    @NotEmpty
-    @Valid
-    private transient final List<ItemRanking> itens;
+    @ListaRankingValida
+    private transient final SortedSet<ItemRanking> itens;
 
     /**
      * Cria um novo ranking com um nome.
@@ -31,7 +30,7 @@ public class Ranking implements Serializable {
      */
     protected Ranking(String nome) {
         this.nome = nome;
-        this.itens = new ArrayList<>();
+        this.itens = new TreeSet<>();
     }
 
     /**
@@ -49,6 +48,10 @@ public class Ranking implements Serializable {
         return nome;
     }
 
+    public SortedSet<ItemRanking> getItens() {
+        return Collections.unmodifiableSortedSet(itens);
+    }
+
     /**
      * Obtém o total de itens listados no ranking.
      * 
@@ -59,6 +62,17 @@ public class Ranking implements Serializable {
     }
 
     protected void addItens(ItemRanking... itens) {
-        this.itens.addAll(Arrays.asList(itens));
+        this.addItens(Arrays.asList(itens));
+    }
+
+    protected void addItens(Collection<ItemRanking> itens) {
+        if (CollectionUtils.isNotEmpty(itens)) {
+            this.itens.addAll(itens);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("nome", nome).append("quantidadeItens", getQuantidadeItens()).toString();
     }
 }
