@@ -1,4 +1,4 @@
-package br.com.colbert.consolidador.dominio.ranking;
+package br.com.colbert.consolidador.dominio.consolidacao;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
+
+import br.com.colbert.consolidador.dominio.ranking.*;
 
 /**
  * Serviço para consolidação de rankings.
