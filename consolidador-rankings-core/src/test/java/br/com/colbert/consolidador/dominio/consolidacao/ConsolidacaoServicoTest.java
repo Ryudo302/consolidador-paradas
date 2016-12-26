@@ -23,6 +23,8 @@ import br.com.colbert.consolidador.dominio.ranking.*;
 @AdditionalClasses({ LoggerProducer.class })
 public class ConsolidacaoServicoTest {
 
+	private static final String NOME_RANKING_CONSOLIDADO = "Consolidado";
+
 	@Inject
 	private ConsolidacaoServico consolidacaoServico;
 
@@ -33,15 +35,15 @@ public class ConsolidacaoServicoTest {
 
 	@Test
 	public void deveriaConsolidarRankingsOrdenandoItens() {
-		ItemRanking itemA1 = ItemRanking.novo(1).comDescricao("A1").build();
-		ItemRanking itemA2 = ItemRanking.novo(2).comDescricao("A2").build();
-		ItemRanking itemB1 = ItemRanking.novo(1).comDescricao("B1").build();
-		ItemRanking itemB2 = ItemRanking.novo(2).comDescricao("B2").build();
+		ItemRanking itemA1 = ItemRanking.novo("A1").deNumero(1).build();
+		ItemRanking itemA2 = ItemRanking.novo("A2").deNumero(2).build();
+		ItemRanking itemB1 = ItemRanking.novo("B1").deNumero(3).build();
+		ItemRanking itemB2 = ItemRanking.novo("B2").deNumero(4).build();
 
 		Ranking ranking1 = Ranking.novo("Teste A").comItens(itemA1, itemA2).build();
 		Ranking ranking2 = Ranking.novo("Teste B").comItens(itemB1, itemB2).build();
 
-		Ranking rankingConsolidado = consolidacaoServico.consolidar(ranking1, ranking2);
+		Ranking rankingConsolidado = consolidacaoServico.consolidar(NOME_RANKING_CONSOLIDADO, ranking1, ranking2);
 
 		assertThat(rankingConsolidado).isNotNull();
 		assertThat(rankingConsolidado).extracting("itens").containsExactly(new TreeSet<>(Arrays.asList(itemA1, itemB1, itemA2, itemB2)));
@@ -49,13 +51,13 @@ public class ConsolidacaoServicoTest {
 
 	@Test
 	public void deveriaConsolidarRankingsComItensSemelhantes() {
-		ItemRanking itemA1 = ItemRanking.novo(1).comDescricao("A1").build();
-		ItemRanking itemA2 = ItemRanking.novo(2).comDescricao("A2").build();
+		ItemRanking itemA1 = ItemRanking.novo("A1").deNumero(1).build();
+		ItemRanking itemA2 = ItemRanking.novo("A2").deNumero(2).build();
 
 		Ranking ranking1 = Ranking.novo("Teste A").comItens(itemA1, itemA2).build();
 		Ranking ranking2 = Ranking.novo("Teste B").comItens(itemA1, itemA2).build();
 
-		Ranking rankingConsolidado = consolidacaoServico.consolidar(ranking1, ranking2);
+		Ranking rankingConsolidado = consolidacaoServico.consolidar(NOME_RANKING_CONSOLIDADO, ranking1, ranking2);
 
 		assertThat(rankingConsolidado).isNotNull();
 		assertThat(rankingConsolidado).extracting("itens").containsExactly(new TreeSet<>(Arrays.asList(itemA1, itemA2)));
@@ -63,16 +65,16 @@ public class ConsolidacaoServicoTest {
 
 	@Test
 	public void deveriaConsolidarRankingsConsiderandoFrequencia() {
-		ItemRanking item1 = ItemRanking.novo(1).comDescricao("1").build();
-		ItemRanking item2 = ItemRanking.novo(2).comDescricao("2").build();
-		ItemRanking item3 = ItemRanking.novo(3).comDescricao("3").build();
-		ItemRanking item4 = ItemRanking.novo(3).comDescricao("4").build();
+		ItemRanking item1 = ItemRanking.novo("1").deNumero(1).build();
+		ItemRanking item2 = ItemRanking.novo("2").deNumero(2).build();
+		ItemRanking item3 = ItemRanking.novo("3").deNumero(3).build();
+		ItemRanking item4 = ItemRanking.novo("4").deNumero(4).build();
 
 		Ranking ranking1 = Ranking.novo("Teste A").comItens(item1, item2, item3).build();
 		Ranking ranking2 = Ranking.novo("Teste B").comItens(item2, item1, item3).build();
 		Ranking ranking3 = Ranking.novo("Teste C").comItens(item4, item1, item2).build();
 
-		Ranking rankingConsolidado = consolidacaoServico.consolidar(ranking1, ranking2, ranking3);
+		Ranking rankingConsolidado = consolidacaoServico.consolidar(NOME_RANKING_CONSOLIDADO, ranking1, ranking2, ranking3);
 
 		assertThat(rankingConsolidado).isNotNull();
 		assertThat(rankingConsolidado).extracting("itens").containsExactly(new TreeSet<>(Arrays.asList(item1, item2, item3, item4)));

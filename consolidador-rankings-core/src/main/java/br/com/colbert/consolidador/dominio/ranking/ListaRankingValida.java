@@ -6,7 +6,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.*;
 
 import javax.validation.*;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.colbert.consolidador.infraestrutura.validacao.ValorPropriedadeUnico;
 
@@ -16,7 +17,7 @@ import br.com.colbert.consolidador.infraestrutura.validacao.ValorPropriedadeUnic
  * @author Thiago Miranda
  * @since 23 de dez de 2016
  */
-@NotNull
+@NotEmpty
 @ValorPropriedadeUnico("numero")
 @Target({ FIELD, METHOD, PARAMETER, ANNOTATION_TYPE })
 @Retention(RUNTIME)
@@ -24,9 +25,9 @@ import br.com.colbert.consolidador.infraestrutura.validacao.ValorPropriedadeUnic
 @Documented
 public @interface ListaRankingValida {
 
-    String message() default "{br.com.colbert.consolidador.ranking.ListaRankingCompleta.message}";
+	String message() default "{br.com.colbert.consolidador.ranking.ListaRankingCompleta.message}";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

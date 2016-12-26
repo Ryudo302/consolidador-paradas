@@ -17,47 +17,48 @@ import org.junit.*;
  */
 public class ItemRankingValidacaoTest {
 
-    private static Validator validator;
+	private static Validator validator;
 
-    @BeforeClass
-    public static void setUpValidator() {
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
-    }
+	@BeforeClass
+	public static void setUpValidator() {
+		validator = Validation.buildDefaultValidatorFactory().getValidator();
+	}
 
-    @Test
-    public void deveriaValidarDadosCorretos() {
-        ItemRanking item = new ItemRanking(1);
-        item.setDescricao("Teste");
+	@Test
+	public void deveriaValidarDadosCorretos() {
+		ItemRanking item = new ItemRanking("Teste");
+		item.setNumero(1);
 
-        Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
+		Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
 
-        assertThat(violacoes).isEmpty();
-    }
+		assertThat(violacoes).isEmpty();
+	}
 
-    @Test
-    public void deveriaValidarItemComPosicaoInvalida() {
-        int numero = -1;
+	@Test
+	public void deveriaValidarItemComPosicaoInvalida() {
+		int numero = -1;
 
-        ItemRanking item = new ItemRanking(-1);
-        item.setDescricao("Teste");
+		ItemRanking item = new ItemRanking("Teste");
+		item.setNumero(-1);
 
-        Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
+		Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
 
-        assertThat(violacoes).hasSize(1);
-        assertThatInvalidValue(violacoes).containsOnly(numero);
-    }
+		assertThat(violacoes).hasSize(1);
+		assertThatInvalidValue(violacoes).containsOnly(numero);
+	}
 
-    @Test
-    public void deveriaValidarItemSemDescricao() {
-        ItemRanking item = new ItemRanking(1);
+	@Test
+	public void deveriaValidarItemSemDescricao() {
+		ItemRanking item = new ItemRanking(null);
+		item.setNumero(1);
 
-        Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
+		Set<ConstraintViolation<ItemRanking>> violacoes = validator.validate(item);
 
-        assertThat(violacoes).hasSize(1);
-        assertThatInvalidValue(violacoes).containsNull();
-    }
+		assertThat(violacoes).hasSize(1);
+		assertThatInvalidValue(violacoes).containsNull();
+	}
 
-    private ListAssert<Object> assertThatInvalidValue(Set<ConstraintViolation<ItemRanking>> violacoes) {
-        return assertThat(violacoes).extracting("invalidValue");
-    }
+	private ListAssert<Object> assertThatInvalidValue(Set<ConstraintViolation<ItemRanking>> violacoes) {
+		return assertThat(violacoes).extracting("invalidValue");
+	}
 }

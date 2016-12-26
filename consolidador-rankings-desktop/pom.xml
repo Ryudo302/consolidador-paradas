@@ -5,8 +5,15 @@
 		<artifactId>consolidador-rankings</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>consolidador-rankings-desktop</artifactId>
 	<name>Consolidador de Rankings - Desktop</name>
 	<description>Módulo do projeto referente às funcionalidades que permitem a execução em ambiente Desktop.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.colbert</groupId>
+			<artifactId>consolidador-rankings-core</artifactId>
+		</dependency>
+	</dependencies>
 </project>

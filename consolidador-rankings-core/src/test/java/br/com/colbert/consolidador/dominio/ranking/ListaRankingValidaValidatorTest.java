@@ -18,54 +18,54 @@ import org.mockito.junit.*;
  */
 public class ListaRankingValidaValidatorTest {
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Mock
-    private ListaRankingValida annotation;
-    @Mock
-    private ConstraintValidatorContext context;
+	@Mock
+	private ListaRankingValida annotation;
+	@Mock
+	private ConstraintValidatorContext context;
 
-    private ListaRankingValidaValidator validator;
+	private ListaRankingValidaValidator validator;
 
-    @BeforeClass
-    public static void setUpClass() {
-        ItemRankingBuilder.setValidacaoHabilitada(false);
-    }
+	@BeforeClass
+	public static void setUpClass() {
+		ItemRankingBuilder.setValidacaoHabilitada(false);
+	}
 
-    @Before
-    public void setUp() {
-        validator = new ListaRankingValidaValidator();
-        validator.initialize(annotation);
-    }
+	@Before
+	public void setUp() {
+		validator = new ListaRankingValidaValidator();
+		validator.initialize(annotation);
+	}
 
-    @Test
-    public void deveriaRetornarTrueParaListaValida() {
-        ItemRanking item1 = ItemRanking.novo(1).build();
-        ItemRanking item2 = ItemRanking.novo(2).build();
+	@Test
+	public void deveriaRetornarTrueParaListaValida() {
+		ItemRanking item1 = ItemRanking.novo("1").deNumero(1).build();
+		ItemRanking item2 = ItemRanking.novo("2").deNumero(2).build();
 
-        List<ItemRanking> itens = Arrays.asList(item1, item2);
+		SortedSet<ItemRanking> itens = new TreeSet<>(Arrays.asList(item1, item2));
 
-        assertThat(validator.isValid(itens, context)).isTrue();
-    }
+		assertThat(validator.isValid(itens, context)).isTrue();
+	}
 
-    @Test
-    public void deveriaRetornarFalseParaListaComItensDuplicados() {
-        ItemRanking item1 = ItemRanking.novo(2).build();
-        ItemRanking item2 = ItemRanking.novo(2).build();
+	@Test
+	public void deveriaRetornarFalseParaListaComItensDuplicados() {
+		ItemRanking item1 = ItemRanking.novo("Teste A").deNumero(2).build();
+		ItemRanking item2 = ItemRanking.novo("Teste B").deNumero(2).build();
 
-        List<ItemRanking> itens = Arrays.asList(item1, item2);
+		SortedSet<ItemRanking> itens = new TreeSet<>(Arrays.asList(item1, item2));
 
-        assertThat(validator.isValid(itens, context)).isFalse();
-    }
-    
-    @Test
-    public void deveriaRetornarFalseParaListaIncompleta() {
-        ItemRanking item1 = ItemRanking.novo(1).build();
-        ItemRanking item2 = ItemRanking.novo(3).build();
+		assertThat(validator.isValid(itens, context)).isFalse();
+	}
 
-        List<ItemRanking> itens = Arrays.asList(item1, item2);
+	@Test
+	public void deveriaRetornarFalseParaListaIncompleta() {
+		ItemRanking item1 = ItemRanking.novo("1").deNumero(1).build();
+		ItemRanking item2 = ItemRanking.novo("3").deNumero(3).build();
 
-        assertThat(validator.isValid(itens, context)).isFalse();
-    }
+		SortedSet<ItemRanking> itens = new TreeSet<>(Arrays.asList(item1, item2));
+
+		assertThat(validator.isValid(itens, context)).isFalse();
+	}
 }

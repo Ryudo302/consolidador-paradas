@@ -1,6 +1,6 @@
 package br.com.colbert.consolidador.dominio.ranking;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.*;
 
 import javax.validation.*;
@@ -15,20 +15,20 @@ import br.com.colbert.consolidador.infraestrutura.validacao.ValorPropriedadeUnic
  * 
  * @see ValorPropriedadeUnico
  */
-public class ListaRankingValidaValidator implements ConstraintValidator<ListaRankingValida, List<ItemRanking>> {
+public class ListaRankingValidaValidator implements ConstraintValidator<ListaRankingValida, SortedSet<ItemRanking>> {
 
-    @Override
-    public void initialize(ListaRankingValida constraintAnnotation) {
-    }
+	@Override
+	public void initialize(ListaRankingValida constraintAnnotation) {
+	}
 
-    @Override
-    public boolean isValid(List<ItemRanking> value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return true;
-        } else {
-            List<Integer> numeros = value.stream().map(ItemRanking::getNumero).sorted().collect(Collectors.toList());
-            return IntStream.range(0, numeros.size() - 1).allMatch(i -> numeros.get(i) == numeros.get(i + 1) - 1);
+	@Override
+	public boolean isValid(SortedSet<ItemRanking> value, ConstraintValidatorContext context) {
+		if (value == null) {
+			return true;
+		} else {
+			List<Integer> numeros = value.stream().map(ItemRanking::getNumero).sorted().collect(Collectors.toList());
+			return IntStream.range(0, numeros.size() - 1).allMatch(i -> numeros.get(i) == numeros.get(i + 1) - 1);
 
-        }
-    }
+		}
+	}
 }

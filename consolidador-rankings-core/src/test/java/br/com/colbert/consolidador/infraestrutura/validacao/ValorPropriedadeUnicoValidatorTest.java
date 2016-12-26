@@ -19,47 +19,46 @@ import org.mockito.junit.*;
  */
 public class ValorPropriedadeUnicoValidatorTest {
 
-    public class ObjetoTeste {
+	public class ObjetoTeste implements Comparable<ObjetoTeste> {
 
-        private int numero;
+		private int numero;
 
-        public ObjetoTeste(int numero) {
-            this.numero = numero;
-        }
+		public ObjetoTeste(int numero) {
+			this.numero = numero;
+		}
 
-        public int getNumero() {
-            return numero;
-        }
-    }
+		public int getNumero() {
+			return numero;
+		}
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+		@Override
+		public int compareTo(ObjetoTeste other) {
+			return Integer.valueOf(numero).compareTo(other.numero);
+		}
+	}
 
-    @Mock
-    private ValorPropriedadeUnico annotation;
-    @Mock
-    private ConstraintValidatorContext context;
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    private ValorPropriedadeUnicoValidator validator;
+	@Mock
+	private ValorPropriedadeUnico annotation;
+	@Mock
+	private ConstraintValidatorContext context;
 
-    @Before
-    public void setUp() {
-        String[] propriedades = { "numero" };
-        when(annotation.value()).thenReturn(propriedades);
+	private ValorPropriedadeUnicoValidator validator;
 
-        validator = new ValorPropriedadeUnicoValidator();
-        validator.initialize(annotation);
-    }
+	@Before
+	public void setUp() {
+		String[] propriedades = { "numero" };
+		when(annotation.value()).thenReturn(propriedades);
 
-    @Test
-    public void deveriaRetornarTrueParaListaValida() {
-        List<ObjetoTeste> objetos = Arrays.asList(new ObjetoTeste(1), new ObjetoTeste(2));
-        assertThat(validator.isValid(objetos, context)).isTrue();
-    }
+		validator = new ValorPropriedadeUnicoValidator();
+		validator.initialize(annotation);
+	}
 
-    @Test
-    public void deveriaRetornarFalseParaListaInvalida() {
-        List<ObjetoTeste> objetos = Arrays.asList(new ObjetoTeste(2), new ObjetoTeste(2));
-        assertThat(validator.isValid(objetos, context)).isFalse();
-    }
+	@Test
+	public void deveriaRetornarTrueParaListaValida() {
+		SortedSet<ObjetoTeste> objetos = new TreeSet<>(Arrays.asList(new ObjetoTeste(1), new ObjetoTeste(2)));
+		assertThat(validator.isValid(objetos, context)).isTrue();
+	}
 }

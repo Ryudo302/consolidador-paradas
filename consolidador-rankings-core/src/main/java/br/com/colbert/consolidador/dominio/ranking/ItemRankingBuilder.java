@@ -12,20 +12,14 @@ import br.com.colbert.consolidador.infraestrutura.builder.AbstractBuilder;
  */
 public class ItemRankingBuilder extends AbstractBuilder<ItemRanking> implements Serializable {
 
-    private static final long serialVersionUID = 619017108767728842L;
+	private static final long serialVersionUID = 619017108767728842L;
 
-    /**
-     * Inicia a criação de um novo item do ranking informado.
-     * 
-     * @param numero
-     *            o número do item
-     */
-    public ItemRankingBuilder(int numero) {
-        super(new ItemRanking(numero));
-    }
+	public ItemRankingBuilder(String descricao) {
+		super(new ItemRanking(descricao));
+	}
 
-    public ItemRankingBuilder comDescricao(String descricao) {
-        this.instanciaIncompleta.setDescricao(descricao);
-        return this;
-    }
+	public ItemRankingBuilder deNumero(int numero) {
+		this.instanciaIncompleta.setNumero(numero);
+		return this;
+	}
 }
