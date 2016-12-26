@@ -52,6 +52,11 @@ public class Ranking implements Serializable {
 		return Collections.unmodifiableSortedSet(itens);
 	}
 
+	protected void setItens(SortedSet<ItemRanking> itens) {
+		this.itens.clear();
+		this.itens.addAll(itens);
+	}
+
 	/**
 	 * Obtém o total de itens listados no ranking.
 	 * 
@@ -68,8 +73,14 @@ public class Ranking implements Serializable {
 	protected void addItens(Collection<ItemRanking> itens) {
 		if (CollectionUtils.isNotEmpty(itens)) {
 			itens.stream().forEach(itemRankingAdicionar -> {
+				Optional<ItemRanking> itemRankingPreExistente = this.itens.stream().filter(item -> item.equals(itemRankingAdicionar)).findFirst();
 
-				this.itens.add(itemRankingAdicionar);
+				itemRankingPreExistente.ifPresent(itemRanking -> {
+					itemRanking.somarPontuacao(itemRankingAdicionar.getPontuacao());
+				});
+				if (!itemRankingPreExistente.isPresent()) {
+					this.itens.add(itemRankingAdicionar);
+				}
 			});
 		}
 	}

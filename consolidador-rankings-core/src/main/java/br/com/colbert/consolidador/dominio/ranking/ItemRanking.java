@@ -21,6 +21,8 @@ public class ItemRanking implements Comparable<ItemRanking>, Serializable {
 	private final String descricao;
 	@Min(1)
 	private int numero;
+	@Min(0)
+	private int pontuacao;
 
 	protected ItemRanking(String descricao) {
 		this.descricao = descricao;
@@ -37,12 +39,28 @@ public class ItemRanking implements Comparable<ItemRanking>, Serializable {
 		return new ItemRankingBuilder(descricao);
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+
 	public int getNumero() {
 		return numero;
 	}
 
 	protected void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public int getPontuacao() {
+		return pontuacao;
+	}
+
+	protected void setPontuacao(int pontuacao) {
+		this.pontuacao = pontuacao;
+	}
+
+	protected void somarPontuacao(int valor) {
+		this.pontuacao += valor;
 	}
 
 	@Override
@@ -66,6 +84,7 @@ public class ItemRanking implements Comparable<ItemRanking>, Serializable {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("numero", numero).append("descricao", descricao).toString();
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("numero", numero).append("descricao", descricao)
+				.append("pontuacao", pontuacao).toString();
 	}
 }

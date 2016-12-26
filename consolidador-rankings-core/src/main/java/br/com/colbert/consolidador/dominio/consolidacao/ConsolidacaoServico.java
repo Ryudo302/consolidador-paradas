@@ -45,6 +45,6 @@ public class ConsolidacaoServico implements Serializable {
 			rankingConsolidadoBuilder.comItens(rankingAtual.getItens());
 		});
 
-		return rankingConsolidadoBuilder.build();
+		return rankingConsolidadoBuilder.ordenarItensPelaPontuacao().build();
 	}
 }

@@ -20,14 +20,25 @@ public class RankingBuilderTest {
 	@Test
 	public void deveriaCriarRankingApenasComNome() {
 		Ranking ranking = new RankingBuilder("Teste").build();
-		assertThat(ranking).extracting("nome").containsExactly("Teste");
-		assertThat(ranking).extracting("quantidadeItens").containsOnly(0);
+		assertThat(ranking.getNome()).asString().contains("Teste");
+		assertThat(ranking.getQuantidadeItens()).isEqualTo(0);
 	}
 
 	@Test
 	public void deveriaCriarRankingComNomeAndItens() {
 		Ranking ranking = new RankingBuilder("Teste").comItens(new ItemRanking("1"), new ItemRanking("2")).build();
-		assertThat(ranking).extracting("nome").containsExactly("Teste");
-		assertThat(ranking).extracting("quantidadeItens").containsOnly(2);
+		assertThat(ranking.getNome()).asString().contains("Teste");
+		assertThat(ranking.getQuantidadeItens()).isEqualTo(2);
+	}
+
+	@Test
+	public void deveriaCriarRankingComPontuacoesAtualizadas() {
+		ItemRanking item1 = new ItemRanking("1");
+		ItemRanking item2 = new ItemRanking("2");
+
+		new RankingBuilder("Teste").comItens(item1, item2).atualizarPontuacaoItens().build();
+
+		assertThat(item1.getPontuacao()).isPositive();
+		assertThat(item2.getPontuacao()).isPositive();
 	}
 }

@@ -55,8 +55,8 @@ public class ConsolidacaoServicoIT {
 		ItemRanking itemB3 = ItemRanking.novo("Item E").deNumero(3).build();
 		ItemRanking itemB4 = ItemRanking.novo("Item A").deNumero(4).build();
 
-		Ranking ranking1 = Ranking.novo("Teste A").comItens(itemA1, itemA2, itemA3, itemA4).build();
-		Ranking ranking2 = Ranking.novo("Teste B").comItens(itemB1, itemB2, itemB3, itemB4).build();
+		Ranking ranking1 = Ranking.novo("Teste A").comItens(itemA1, itemA2, itemA3, itemA4).atualizarPontuacaoItens().build();
+		Ranking ranking2 = Ranking.novo("Teste B").comItens(itemB1, itemB2, itemB3, itemB4).atualizarPontuacaoItens().build();
 
 		Ranking rankingConsolidado = consolidacaoServico.consolidar("Teste Consolidado", ranking1, ranking2);
 
