@@ -8,6 +8,8 @@ import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.validation.*;
 
+import org.slf4j.Logger;
+
 /**
  * Classe que provê acesso à instância de {@link Validator} configurada.
  * 
@@ -20,12 +22,14 @@ public class ValidacaoServico implements Serializable {
     private static final long serialVersionUID = -7780598847274916717L;
 
     @Inject
+    private transient Logger logger;
+    @Inject
     private transient Validator validator;
 
     /**
      * Obtém a instância única do serviço.
      * 
-     * @return a instância 
+     * @return a instância
      */
     public static ValidacaoServico getInstance() {
         return CDI.current().select(ValidacaoServico.class).get();
@@ -40,8 +44,10 @@ public class ValidacaoServico implements Serializable {
      *             caso ocorra algum erro de validação
      */
     public void validar(Object bean) {
+        logger.debug("Validando: {}", bean);
         Set<ConstraintViolation<Object>> violacoes = validator.validate(bean);
         if (!violacoes.isEmpty()) {
+            logger.debug("Violações: {}", violacoes);
             throw new ValidacaoException(bean, violacoes);
         }
     }
