@@ -1,6 +1,15 @@
 package br.com.colbert.consolidador;
 
-import org.jboss.weld.environment.se.StartMain;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
+import org.jboss.weld.environment.se.bindings.Parameters;
+import org.jboss.weld.environment.se.events.ContainerInitialized;
+
+import br.com.colbert.consolidador.aplicacao.principal.MainPresenter;
 
 /**
  * Classe que inicia a aplicação.
@@ -8,13 +17,19 @@ import org.jboss.weld.environment.se.StartMain;
  * @author ThiagoColbert
  * @since 25 de dez de 2016
  */
+@ApplicationScoped
 public final class Main {
 
-	private Main() {
+    @Inject
+    private transient MainPresenter mainPresenter;
 
-	}
-
-	public static void main(String[] args) {
-		StartMain.main(args);
-	}
+    /**
+     * Método invocado assim que o contexto CDI é inicializado.
+     * 
+     * @param event
+     *            o evento
+     */
+    public void contextoInicializado(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
+        mainPresenter.start();
+    }
 }
